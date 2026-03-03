@@ -1,16 +1,41 @@
-# React + Vite
+# Pocket Notes - React Module Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and clean notes management application built using React.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Create note groups with custom colors
+- Add notes inside groups
+- Notes stored in localStorage
+- Data persists after page refresh
+- Duplicate group name validation
+- Color selection required before group creation
+- Clean and responsive UI
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React (Vite)
+- JavaScript
+- CSS
+- LocalStorage
 
-## Expanding the ESLint configuration
+## 📂 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/App.jsx` – Main application logic
+- `src/App.css` – Styling
+- `src/main.jsx` – Entry point
+
+## 💾 Persistence
+
+All groups and notes are stored in browser localStorage.
+
+## ▶️ How to Run Locally
+
+```bash
+npm install
+npm run dev
+```
+## 🌐 Live Demo
+```
+https://pocket-notes-react-rust.vercel.app
+```
