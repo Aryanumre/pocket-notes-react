@@ -1,171 +1,102 @@
-import { useState, useEffect } from "react";
-import "./App.css";
+import React, { useState, useEffect } from "react";
+import Sidebar from "./components/Sidebar";
+import NotesArea from "./components/NotesArea";
+import CreateGroupModal from "./components/CreateGroupModal";
+import "./styles/sidebar.css";
+import "./styles/notes.css";
+import "./styles/modal.css";
 
 function App() {
-  const [activeGroup, setActiveGroup] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [groupName, setGroupName] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
-  const [input, setInput] = useState("");
+  const [groups, setGroups] = useState([
+    { id: 1, name: "My Notes", color: "#16008b" },
+    { id: 2, name: "My Personal grp", color: "#ff5733" },
+    { id: 3, name: "JavaScript", color: "#f1c40f" },
+    { id: 4, name: "HTML", color: "#e67e22" },
+    { id: 5, name: "CSS Notes", color: "#2980b9" },
+    { id: 6, name: "SQL Notes", color: "#27ae60" },
+    { id: 7, name: "Python Notes", color: "#8e44ad" },
+    { id: 8, name: "React grp", color: "#ff5733" },
+    { id: 9, name: "Github grp", color: "#4c1bb0" },
+  ]);
 
-  const colors = [
-    "#B38BFA",
-    "#FF79F2",
-    "#43E6FC",
-    "#F19576",
-    "#0047FF",
-    "#6691FF",
-  ];
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Load from localStorage
-  const [groups, setGroups] = useState(() => {
-    return JSON.parse(localStorage.getItem("groups")) || [];
-  });
+  const [notes, setNotes] = useState(
+    JSON.parse(localStorage.getItem("notes")) || {},
+  );
 
-  const [notes, setNotes] = useState(() => {
-    return JSON.parse(localStorage.getItem("notes")) || {};
-  });
-
-  // Save groups
-  useEffect(() => {
-    localStorage.setItem("groups", JSON.stringify(groups));
-  }, [groups]);
-
-  // Save notes
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
-  const createGroup = () => {
-    if (groupName.trim().length < 2)
-      return alert("Minimum 2 characters required");
-
-    if (!selectedColor) return alert("Select colour");
-
-    const duplicate = groups.find(
-      (g) => g.name.toLowerCase() === groupName.toLowerCase(),
+  const addGroup = (newGroup) => {
+    const exists = groups.some(
+      (g) => g.name.toLowerCase() === newGroup.name.trim().toLowerCase(),
     );
-    if (duplicate) return alert("Group already exists");
 
-    const newGroup = {
-      id: Date.now(),
-      name: groupName,
-      color: selectedColor,
-    };
+    if (exists) {
+      alert("Group name already exists!");
+      return;
+    }
 
-    setGroups([...groups, newGroup]);
-    setGroupName("");
-    setSelectedColor("");
-    setShowModal(false);
+    const id = groups.length + 1;
+    setGroups([...groups, { id, ...newGroup }]);
   };
 
-  const addNote = () => {
-    if (!input.trim() || !activeGroup) return;
+  const addNote = (text) => {
+    if (!selectedGroup) return;
 
-    const newNote = {
-      text: input,
-      date: new Date().toLocaleString(),
-    };
+    const groupId = selectedGroup.id;
+    const now = new Date();
 
-    setNotes({
-      ...notes,
-      [activeGroup.id]: [...(notes[activeGroup.id] || []), newNote],
-    });
+    const formattedDate =
+      now.getDate() +
+      " " +
+      now.toLocaleString("en-US", { month: "short" }) +
+      " " +
+      now.getFullYear() +
+      " • " +
+      now.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
 
-    setInput("");
+    setNotes((prev) => ({
+      ...prev,
+      [groupId]: [
+        ...(prev[groupId] || []),
+        {
+          id: Date.now(),
+          text,
+          date: formattedDate,
+        },
+      ],
+    }));
   };
 
   return (
     <div className="app">
-      {/* Sidebar */}
-      <div className="sidebar">
-        <h2>Pocket Notes</h2>
+      <Sidebar
+        groups={groups}
+        selectedGroup={selectedGroup}
+        setSelectedGroup={setSelectedGroup}
+        openModal={() => setIsModalOpen(true)}
+      />
 
-        {groups.map((group) => (
-          <div
-            key={group.id}
-            className={`group-item ${activeGroup?.id === group.id ? "active" : ""}`}
-            onClick={() => setActiveGroup(group)}>
-            <div className="avatar" style={{ backgroundColor: group.color }}>
-              {group.name.substring(0, 2).toUpperCase()}
-            </div>
-            <span>{group.name}</span>
-          </div>
-        ))}
+      <NotesArea
+        selectedGroup={selectedGroup}
+        notes={notes[selectedGroup?.id] || []}
+        addNote={addNote}
+      />
 
-        <button className="add-btn" onClick={() => setShowModal(true)}>
-          +
-        </button>
-      </div>
-
-      {/* Main */}
-      <div className="main">
-        {!activeGroup ? (
-          <div className="empty">
-            <h1>Pocket Notes</h1>
-            <p>Select or create a group to start</p>
-          </div>
-        ) : (
-          <>
-            <div className="header">
-              <div
-                className="avatar"
-                style={{ backgroundColor: activeGroup.color }}>
-                {activeGroup.name.substring(0, 2).toUpperCase()}
-              </div>
-              <h3>{activeGroup.name}</h3>
-            </div>
-
-            <div className="notes">
-              {(notes[activeGroup.id] || []).map((note, index) => (
-                <div key={index} className="note">
-                  <p className="note-text">{note.text}</p>
-                  <div className="note-time">{note.date}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="input-area">
-              <input
-                type="text"
-                placeholder="Enter your note..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && addNote()}
-              />
-              <button onClick={addNote}>Send</button>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Create New Group</h3>
-
-            <input
-              type="text"
-              placeholder="Group name"
-              value={groupName}
-              onChange={(e) => setGroupName(e.target.value)}
-            />
-
-            <div className="colors">
-              {colors.map((color, index) => (
-                <div
-                  key={index}
-                  className={`color-circle ${selectedColor === color ? "selected" : ""}`}
-                  style={{ backgroundColor: color }}
-                  onClick={() => setSelectedColor(color)}
-                />
-              ))}
-            </div>
-
-            <button onClick={createGroup}>Create</button>
-          </div>
-        </div>
+      {isModalOpen && (
+        <CreateGroupModal
+          closeModal={() => setIsModalOpen(false)}
+          addGroup={addGroup}
+          groups={groups}
+        />
       )}
     </div>
   );

@@ -1,0 +1,89 @@
+.sidebar {
+  width: 25%;
+  background: #fff;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-size: 16px;
+}
+
+/* ✅ HEADER CENTER */
+.sidebar-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.group-list {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.group-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.group-item.selected {
+  background-color: #e0e0ff;
+  border-radius: 5px;
+}
+
+.group-circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: #16008b;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+.app {
+  display: flex;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+  }
+
+  .notes-area {
+    display: none; /* 👈 mobile pe hide */
+  }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+  }
+}

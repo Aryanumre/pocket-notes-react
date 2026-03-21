@@ -1,0 +1,93 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* BOX */
+.modal {
+  width: 500px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+/* HEADER */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-size: 22px;
+}
+
+.close-btn {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ROW */
+.modal-row {
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  gap: 25px;
+}
+
+.modal-row label {
+  width: 150px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* INPUT */
+.modal-row input {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* COLORS */
+.color-options {
+  display: flex;
+  gap: 12px;
+}
+
+.color-circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.color-circle.active {
+  border: 3px solid black;
+}
+
+/* BUTTON */
+.modal-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.modal-btn button {
+  background: #001f8b;
+  color: white;
+  border: none;
+  padding: 10px 35px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .modal {
+    width: 90%;
+  }
+}
