@@ -37,5 +37,5 @@ npm run dev
 ```
 ## 🌐 Live Demo
 ```
-https://pocket-notes-react-rust.vercel.app
+https://pocket-notes-react-rust.vercel.app/
 ```
