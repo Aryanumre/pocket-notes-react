@@ -127,23 +127,15 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== MOBILE FIX CLEAN ===== */
-
-/* ===== SAFE MOBILE FIX ===== */
-
-/* ===== MOBILE VIEW CLEAN FIX ===== */
-
 @media (max-width: 768px) {
   .app {
     flex-direction: column;
   }
 
-  /* hide notes by default */
   .notes-area {
     display: none;
   }
 
-  /* show when group selected */
   .notes-area.group {
     display: block;
     width: 100%;
